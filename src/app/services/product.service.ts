@@ -8,7 +8,7 @@ import {Product} from "../cammon/product";
 })
 export class ProductService {
 
-  private baseUrl='http://localhost:4444/api/products/all';
+  private baseUrl='http://localhost:4444/products';
 
 
   constructor(private httpClient: HttpClient) { }
