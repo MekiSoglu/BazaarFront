@@ -18,24 +18,7 @@
 					<img ngSrc="assets/images/logo2.jpg" alt="luv2shop" class="img-responsive" height="512" width="512" style=" background-color: #666666 ;border-radius: 100%; z-index: -8;box-shadow:#f8f8f8; hover">
 				</a>
 			</div>
-			<div class="menu-sidebar-content js-scrollbar1">
-				<nav class="navbar-sidebar">
-					<ul class="list-unstyled navbar-list">
-						<li>
-							<a href="#">Books</a>
-						</li>
-						<li>
-							<a href="#">Coffee Mugs</a>
-						</li>
-						<li>
-							<a href="#">Mouse Pads</a>
-						</li>
-						<li>
-							<a href="#">Luggage Tags</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
+			<app-category-list></app-category-list>
 		</aside>
     <div class="page-container">
 
@@ -62,8 +45,7 @@
 					</div>
 				</div>
 			</header>
-    <app-product-list></app-product-list>
-
+      <router-outlet></router-outlet>
         </div>
 
   </div>

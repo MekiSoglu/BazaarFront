@@ -1,0 +1,67 @@
+<html>
+<head>
+  <style>
+    ul{
+      list-style: none;
+      padding: 0;
+    }
+
+    .parent-category {
+      position: relative;
+      border-bottom: 1px solid #0da8e4;
+
+    }
+
+     .parent-category a:hover{
+       border-bottom: 1px solid #0da8e4;
+    }
+
+
+    .child-categories {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      width: 150px;
+    }
+
+    .parent-category:hover .child-categories {
+      display: block;
+
+    }
+
+
+    .child-categories a {
+      display: block;
+      padding: 5px 10px;
+    }
+    .child-categories a:hover {
+      display: block;
+      padding: 5px 10px;
+      border-bottom: 1px solid #0da8e4;
+    }
+  </style>
+</head>
+
+<body>
+<div class="menu-sidebar-content js-scrollbar1">
+  <nav class="navbar-sidebar">
+    <ul class="list-unstyled navbar-list">
+      <ng-container *ngFor="let category of categories">
+        <ng-container *ngIf="!category.parent_id">
+          <li class="parent-category">
+            <a class="get" href="#">{{ category.categoryName }}</a>
+            <ul class="child-categories">
+              <li *ngFor="let child of childCategoriesMap.get(category.id)">
+                <a href="#">{{ child.categoryName }}</a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </nav>
+</div>
+</body>
+</html>

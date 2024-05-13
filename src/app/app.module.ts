@@ -7,13 +7,26 @@ import { ProductListComponent } from './component/product-list/product-list.comp
 import {HttpClientModule} from "@angular/common/http";
 import {ProductService} from "./services/product.service";
 import {NgOptimizedImage} from "@angular/common";
+import { CategoryListComponent } from './component/category-list/category-list.component';
+import {RouterModule, Routes} from "@angular/router";
 
+
+const routes:Routes=[
+  {path:'category/:id',component:ProductListComponent},
+  {path:'category',component:ProductListComponent},
+  {path:'product',component:ProductListComponent},
+  {path:'',redirectTo:"/products",pathMatch:"full"},
+  {path:'**',redirectTo:"/products",pathMatch:"full"}
+
+  ]
 @NgModule({
   declarations: [
     AppComponent,
-    ProductListComponent
+    ProductListComponent,
+    CategoryListComponent
   ],
     imports: [
+        RouterModule.forRoot(routes),
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
