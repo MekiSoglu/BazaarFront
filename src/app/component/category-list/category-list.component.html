@@ -54,7 +54,7 @@
             <a class="get" href="#">{{ category.categoryName }}</a>
             <ul class="child-categories">
               <li *ngFor="let child of childCategoriesMap.get(category.id)">
-                <a href="#">{{ child.categoryName }}</a>
+                <a routerLink="products/category/{{child.id}}" routerLinkActive="active-link"> {{ child.categoryName }}</a>
               </li>
             </ul>
           </li>

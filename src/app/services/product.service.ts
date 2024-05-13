@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Product} from "../cammon/product";
+import {category} from "../cammon/category";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,15 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-getProductList(): Observable<Product[]> {
+getAllProductList(): Observable<Product[]> {
   return this.httpClient.get<Product[]>(this.baseUrl);
+}
+
+getProductList(categoryId: number): Observable<Product[]> {
+  const searchUrl = `${this.baseUrl}/category/${categoryId}`;
+  return this.httpClient.get<Product[]>(searchUrl).pipe(
+    map((response: any) => response.content)
+  );
 }
 
 }

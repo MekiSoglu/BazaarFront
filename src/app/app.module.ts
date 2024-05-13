@@ -11,14 +11,14 @@ import { CategoryListComponent } from './component/category-list/category-list.c
 import {RouterModule, Routes} from "@angular/router";
 
 
-const routes:Routes=[
-  {path:'category/:id',component:ProductListComponent},
-  {path:'category',component:ProductListComponent},
-  {path:'product',component:ProductListComponent},
-  {path:'',redirectTo:"/products",pathMatch:"full"},
-  {path:'**',redirectTo:"/products",pathMatch:"full"}
-
-  ]
+const routes: Routes = [
+  { path: 'products/category/:id', component: ProductListComponent },
+  { path: 'products/category', component: ProductListComponent },
+  { path: 'category', component: CategoryListComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '', redirectTo: "/products", pathMatch: "full" },
+  { path: 'products**', redirectTo: "/products", pathMatch: "full" }
+];
 @NgModule({
   declarations: [
     AppComponent,
