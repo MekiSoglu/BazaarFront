@@ -25,6 +25,13 @@ getProductList(categoryId: number): Observable<Product[]> {
   );
 }
 
+  searchProducts(theKeyword: string) {
+    const searchUrl = `${this.baseUrl}/search/${theKeyword}`;
+  return this.httpClient.get<Product[]>(searchUrl).pipe(
+    map((response: any) => response.content)
+  );
+
+  }
 }
 
 interface GetResponse{
