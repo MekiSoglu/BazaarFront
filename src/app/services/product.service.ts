@@ -18,12 +18,23 @@ getAllProductList(): Observable<Product[]> {
   return this.httpClient.get<Product[]>(this.baseUrl);
 }
 
+getProductListId(productId:number): Observable<Product> {
+    const searchUrl = `${this.baseUrl}/${productId}`;
+  return this.httpClient.get<Product>(searchUrl);
+}
+
+
 getProductList(categoryId: number): Observable<Product[]> {
   const searchUrl = `${this.baseUrl}/category/${categoryId}`;
   return this.httpClient.get<Product[]>(searchUrl).pipe(
     map((response: any) => response.content)
   );
 }
+
+ getDetailsById(id: number): Observable<Map<string, string>> {
+    const url = `${this.baseUrl}/show/${id}`;
+    return this.httpClient.get<Map<string, string>>(url);
+  }
 
   searchProducts(theKeyword: string) {
     const searchUrl = `${this.baseUrl}/search/${theKeyword}`;

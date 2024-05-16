@@ -16,48 +16,48 @@ export class ProductListComponent implements OnInit{
 
   constructor(private productService:ProductService,private route:ActivatedRoute) {
   }
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(()=>{
-      this.listProducts();
-    })
-  }
-
-private listProducts() {
-    this.searchMode=this.route.snapshot.paramMap.has('keyword')
-  if(this.searchMode){
-    this.handleSearchProduct()
-    console.log("handlesearch")
-  }else{
-    this.handleListProduct()
-    console.log("handlelis")
-  }
-
-  }
-
-
-  handleListProduct(){
-     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-    if (hasCategoryId) {
-    const categoryId = +this.route.snapshot.paramMap.get('id')!;
-        if (!isNaN(categoryId)) {
-                this.currentCategoryId = categoryId;
-                console.log("id:"+this.currentCategoryId)
-             this.productService.getProductList(this.currentCategoryId).subscribe(
-               data => {
-                  this.products = data;
-                  console.log("data:"+data)
-               })
-        }
-
+ngOnInit(): void {
+  this.route.paramMap.subscribe(() => {
+    if (this.route.snapshot.paramMap.has('keyword')) {
+      this.handleSearchProduct();
     } else {
-      this.productService.getAllProductList().subscribe(
-        data => {
-          this.products = data;
-          console.log("getall")
-        }
-      )
+      this.handleListOrGetAllProducts();
     }
+  });
+}
+
+
+private handleListOrGetAllProducts() {
+  if (this.route.snapshot.paramMap.has('id')) {
+    this.handleListProduct();
+  } else {
+    this.getAllProducts();
   }
+}
+
+
+private handleListProduct() {
+  const categoryId = +this.route.snapshot.paramMap.get('id')!;
+  if (!isNaN(categoryId)) {
+    this.currentCategoryId = categoryId;
+    console.log("id:" + this.currentCategoryId);
+    this.productService.getProductList(this.currentCategoryId).subscribe(
+      data => {
+        this.products = data;
+        console.log("data:" + data);
+      }
+    );
+  }
+}
+private getAllProducts() {
+  this.productService.getAllProductList().subscribe(
+    data => {
+      this.products = data;
+      console.log("getAll")
+    }
+  );
+}
+
 
   private handleSearchProduct() {
 

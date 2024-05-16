@@ -9,7 +9,11 @@
     .parent-category {
       position: relative;
       border-bottom: 1px solid #0da8e4;
-
+      display: block;
+    }
+    .parent-category:hover{
+      height: auto;
+      margin-bottom: 150px;
     }
 
      .parent-category a:hover{
@@ -28,9 +32,7 @@
 
     .parent-category:hover .child-categories {
       display: block;
-
     }
-
 
     .child-categories a {
       display: block;
@@ -52,16 +54,20 @@
         <ng-container *ngIf="!category.parent_id">
           <li class="parent-category">
             <a class="get" href="#">{{ category.categoryName }}</a>
-            <ul class="child-categories">
+            <div >
+                <ul class="child-categories">
               <li *ngFor="let child of childCategoriesMap.get(category.id)">
-                <a routerLink="products/category/{{child.id}}" routerLinkActive="active-link"> {{ child.categoryName }}</a>
+                <a routerLink="/category/{{child.id}}" routerLinkActive="active-link"> {{ child.categoryName }}</a>
               </li>
             </ul>
+            </div>
+
           </li>
         </ng-container>
       </ng-container>
     </ul>
   </nav>
 </div>
+
 </body>
 </html>
