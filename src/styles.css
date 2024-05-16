@@ -721,7 +721,12 @@ table.table.table-bordered th{
     color:#0da8e4
 }
 .detail-section{
-    margin-top:60px
+    margin-top:100px
+}
+.detail-image{
+  border: 1px solid #000000;
+  padding: 15px 15px;
+  width: 30%;
 }
 /**/
 
