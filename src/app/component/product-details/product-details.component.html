@@ -1,0 +1,23 @@
+<div class="detail-section">
+  <div class="container-fluid">
+
+    <img src="{{product.imageUrl}}" class="detail-image">
+
+    <h3>{{product.name}}</h3>
+    <div class="price">{{product.unitPrice|currency:'USD'}}</div>
+    <a href="#" class="primary-btn">Add to card</a>
+    <hr>
+    <h4>
+      Details
+    </h4>
+          <p>{{product.description}}</p>
+
+    <div *ngFor="let item of productMap|keyvalue">
+      <p> <strong>{{item.key}}:</strong> {{item.value}}</p>
+    </div>
+
+    <a routerLink="/products"  class="primary-btn">back</a>
+
+  </div>
+
+</div>
