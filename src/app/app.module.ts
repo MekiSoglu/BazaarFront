@@ -11,6 +11,8 @@ import { CategoryListComponent } from './component/category-list/category-list.c
 import {RouterModule, Routes} from "@angular/router";
 import { SearchComponent } from './component/search/search.component';
 import {ProductDetailsComponent} from "./component/product-details/product-details.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { CartStatusComponent } from './component/cart-status/cart-status.component';
 
 
 const routes: Routes = [
@@ -29,6 +31,7 @@ const routes: Routes = [
     CategoryListComponent,
     SearchComponent,
     ProductDetailsComponent,
+    CartStatusComponent,
 
   ],
     imports: [
@@ -36,7 +39,8 @@ const routes: Routes = [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        NgbModule
     ],
   providers: [ProductService],
   bootstrap: [AppComponent]

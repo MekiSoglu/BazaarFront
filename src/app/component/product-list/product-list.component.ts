@@ -13,11 +13,21 @@ export class ProductListComponent implements OnInit{
   products:Product[]=[];
   currentCategoryId : number=0;
   searchMode:boolean=false;
+  thePageNumber:number=1;
+  thePageSize:number=5;
+  theTotalElement:number=0;
+  previousCategoryId:number=1;
+
+
 
   constructor(private productService:ProductService,private route:ActivatedRoute) {
   }
 ngOnInit(): void {
-  this.route.paramMap.subscribe(() => {
+  this.listProducts();
+}
+
+ listProducts(){
+    this.route.paramMap.subscribe(() => {
     if (this.route.snapshot.paramMap.has('keyword')) {
       this.handleSearchProduct();
     } else {
@@ -26,6 +36,16 @@ ngOnInit(): void {
   });
 }
 
+checkPage(page:number){
+      this.thePageNumber=page;
+      this.listProducts();
+}
+changePageSize(size:string){
+    this.thePageSize = +size;
+    this.thePageNumber=1;
+    this.listProducts();
+
+}
 
 private handleListOrGetAllProducts() {
   if (this.route.snapshot.paramMap.has('id')) {
@@ -34,39 +54,55 @@ private handleListOrGetAllProducts() {
     this.getAllProducts();
   }
 }
-
-
 private handleListProduct() {
   const categoryId = +this.route.snapshot.paramMap.get('id')!;
   if (!isNaN(categoryId)) {
     this.currentCategoryId = categoryId;
     console.log("id:" + this.currentCategoryId);
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-        console.log("data:" + data);
-      }
-    );
   }
+
+   if (this.previousCategoryId !== this.currentCategoryId) {
+      this.thePageNumber = 1;
+    }
+
+    this.previousCategoryId = this.currentCategoryId;
+
+    console.log(`currentCategoryId ${this.currentCategoryId}, thePageNumber ${this.thePageNumber}, thepagesize   theTotalElement ${this.theTotalElement}`);
+
+    this.productService.getProductListPagination(this.thePageNumber, this.thePageSize, this.currentCategoryId).subscribe(data => {
+      this.products = data.content;
+      this.thePageNumber = data.pageable.pageNumber;
+      this.thePageSize = data.pageable.pageSize;
+      this.theTotalElement = data.totalElements;
+    });
 }
 private getAllProducts() {
-  this.productService.getAllProductList().subscribe(
+      if(this.thePageNumber==0){
+      this.thePageNumber=1;
+    }
+  this.productService.getAllProductList(this.thePageNumber,this.thePageSize).subscribe(
     data => {
-      this.products = data;
-      console.log("getAll")
+       this.products=data.content;
+        this.thePageNumber=data.pageable.pageNumber;
+        this.thePageSize=data.pageable.pageSize;
+        this.theTotalElement=data.totalElements;
     }
   );
 }
 
-
   private handleSearchProduct() {
 
     const theKeyword:string=this.route.snapshot.paramMap.get('keyword')!;
-
-    this.productService.searchProducts(theKeyword).subscribe(
+    if(this.thePageNumber==0){
+      this.thePageNumber=1;
+    }
+    this.productService.searchProducts(this.thePageNumber,this.thePageSize,theKeyword).subscribe(
       data=>{
-        this.products=data;
-            console.log(data)
+        this.products=data.content;
+        this.thePageNumber=data.pageable.pageNumber;
+        this.thePageSize=data.pageable.pageSize;
+        this.theTotalElement=data.totalElements;
+
       }
     )
   }

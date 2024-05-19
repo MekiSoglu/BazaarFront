@@ -14,39 +14,62 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-getAllProductList(): Observable<Product[]> {
-  return this.httpClient.get<Product[]>(this.baseUrl);
+getAllProductList(thePage: number, thePageSize: number): Observable<GetResponseProducts> {
+      const searchUrl = `${this.baseUrl}?page=${thePage}&size=${thePageSize}`;
+
+  return this.httpClient.get<GetResponseProducts>(searchUrl);
 }
 
 getProductListId(productId:number): Observable<Product> {
     const searchUrl = `${this.baseUrl}/${productId}`;
   return this.httpClient.get<Product>(searchUrl);
 }
-
-
-getProductList(categoryId: number): Observable<Product[]> {
-  const searchUrl = `${this.baseUrl}/category/${categoryId}`;
-  return this.httpClient.get<Product[]>(searchUrl).pipe(
-    map((response: any) => response.content)
-  );
+getProductListPagination(thePage: number, thePageSize: number, categoryId: number): Observable<GetResponseProducts> {
+    console.log("service"+thePageSize)
+  const searchUrl = `${this.baseUrl}/category/${categoryId}?page=${thePage}&size=${thePageSize}`;
+  return this.httpClient.get<GetResponseProducts>(searchUrl);
 }
+
 
  getDetailsById(id: number): Observable<Map<string, string>> {
     const url = `${this.baseUrl}/show/${id}`;
     return this.httpClient.get<Map<string, string>>(url);
   }
 
-  searchProducts(theKeyword: string) {
-    const searchUrl = `${this.baseUrl}/search/${theKeyword}`;
-  return this.httpClient.get<Product[]>(searchUrl).pipe(
-    map((response: any) => response.content)
-  );
+  searchProducts(thePage: number, thePageSize: number,theKeyword: string):Observable<GetResponseProducts> {
+    const searchUrl = `${this.baseUrl}/search/${theKeyword}?page=${thePage}&size=${thePageSize}`;
+  return this.httpClient.get<GetResponseProducts>(searchUrl)
 
   }
+
 }
 
-interface GetResponse{
-  _embedded:{
-    products:Product[]
-  }
+interface GetResponseProducts {
+  content: Product[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    offset: number;
+    paged: boolean;
+    unpaged: false;
+  };
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  empty: boolean;
 }
+
