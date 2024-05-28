@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {CartItem} from "../cammon/cart-item";
 import {Subject} from "rxjs";
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +36,7 @@ export class CartService {
 
   }
 
-  private computeCartTotals() {
+  public computeCartTotals() {
     let totalPriceValue:number=0;
 
     let totalQuantityValue:number=0;
@@ -55,5 +57,27 @@ export class CartService {
       console.log("name"+tempCardItem.name+"quantity"+tempCardItem.quantity+"totalPrice"+subTotal)
     }
 
+  }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+
+    if(theCartItem.quantity===0){
+     this.remove(theCartItem);
+    }else{
+      this.computeCartTotals()
+    }
+
+  }
+
+
+  private remove(theCartItem: CartItem) {
+    const itemIndex=this.cartItem.findIndex(tempCartItem=>
+    tempCartItem.id===theCartItem.id
+    )
+    if(itemIndex>-1){
+      this.cartItem.splice(itemIndex,1);
+      this.computeCartTotals();
+    }
   }
 }
